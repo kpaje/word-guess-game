@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>Page Title</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!-- <link rel="stylesheet" type="text/css" media="screen" href="main.css" />
+    <script src="main.js"></script> -->
+</head>
+<body>
+    <script>
+        var alphabet = ['A','B','C','E','F','G','H','I','J','K','L','M','N','O','P','Q','R','S','T','U','V','W','X','Y'];
+        var wins = 0;
+        var guessRemaining = 9;
+        var letterGuessed = [];
+        var wordList = ['Rock', 'Paper', 'Scissor'];
+
+        var generateWord = {
+            pickWord      : wordList[Math.floor(Math.random()*wordList.length)],
+            convertToArray: function(result) {
+                                return Array.from(this.pickWord);
+            },
+        };
+        console.log(generateWord.convertToArray());
+
+        var keyPressed = window.addEventListener("keydown", function(event) {
+                            if (event) {
+                                var letter = [];
+                                var key = event.key;
+                                var result = letter.push(key);
+                                console.log(letter);
+                            }
+                        }); 
+                        // console.log(keyPressed);
+
+        var letterAttempts = function(thing) {
+            var test = letterGuessed.push(keyPressed);
+            var thing = Array.prototype.push.concat(test, letterGuessed);
+            // console.log(thing);
+            console.log(test);
+        }; 
+        console.log(letterAttempts());
+
+        console.log(letterGuessed.concat(keyPressed));
+
+
+        // var letterAttempts = window.addEventListener("keydown", function(event) {
+        //                         if (event) {
+        //                             letterGuessed.push(event.key);
+        //                             console.log(letterGuessed);
+        //                         }
+        //                     });
+        
+    
+
+
+
+
+        // function displayLetter();
+        // function startMenu();
+        // function hideLetters();
+        // function showLetter();
+        // function generateWord();
+        // function isLetterMatch() {};
+        
+        
+    </script>
+</body>
+</html>
