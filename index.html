@@ -3,66 +3,87 @@
 <head>
     <meta charset="utf-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <title>Page Title</title>
+    <title>Word Guess Game</title>
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <!-- <link rel="stylesheet" type="text/css" media="screen" href="main.css" />
     <script src="main.js"></script> -->
 </head>
 <body>
+        <p id="keyDetect"></p>
+        <p id="ranWord"></p>
+        <p id="convertToArray"></p>
+        <p id="hideArray"></p>
+        <p id="guessedArray"></p>
+
+
     <script>
-        var alphabet = ['A','B','C','E','F','G','H','I','J','K','L','M','N','O','P','Q','R','S','T','U','V','W','X','Y'];
-        var wins = 0;
-        var guessRemaining = 9;
-        var letterGuessed = [];
-        var wordList = ['Rock', 'Paper', 'Scissor'];
+        // var alphabet = ['A','B','C','E','F','G','H','I','J','K','L','M','N','O','P','Q','R','S','T','U','V','W','X','Y'];
+        var wins            = 0;
+        var guessRemaining  = 9;
+        var wordList        = ['FUBAR', 'SNAFU', 'TARFU'];
+        var guessArray      = [];
+        var letter          = '';
 
         var generateWord = {
-            pickWord      : wordList[Math.floor(Math.random()*wordList.length)],
-            convertToArray: function(result) {
+            pickWord        : wordList[Math.floor(Math.random()*wordList.length)],
+            convertToArray  : function() {
                                 return Array.from(this.pickWord);
             },
+            hideArray       : function() {
+                                var randomWord = generateWord.convertToArray();
+                                randomWord = randomWord.map(function() {
+                                    return " - ";
+                                }); 
+                                return randomWord;
+            },
         };
-        console.log(generateWord.convertToArray());
-
-        var keyPressed = window.addEventListener("keydown", function(event) {
-                            if (event) {
-                                var letter = [];
-                                var key = event.key;
-                                var result = letter.push(key);
-                                console.log(letter);
-                            }
-                        }); 
-                        // console.log(keyPressed);
-
-        var letterAttempts = function(thing) {
-            var test = letterGuessed.push(keyPressed);
-            var thing = Array.prototype.push.concat(test, letterGuessed);
-            // console.log(thing);
-            console.log(test);
-        }; 
-        console.log(letterAttempts());
-
-        console.log(letterGuessed.concat(keyPressed));
-
-
-        // var letterAttempts = window.addEventListener("keydown", function(event) {
-        //                         if (event) {
-        //                             letterGuessed.push(event.key);
-        //                             console.log(letterGuessed);
-        //                         }
-        //                     });
         
-    
+        //try to refactor from keypressed object
+        var onScreen = {
+            keyDetect       : function() {return document.getElementById("keyDetect").innerHTML},
+            guessedArray    : function() {return document.getElementById("keyDetect").innerHTML},
+        };
 
 
+        var keyPressed = {            
+            letterInput     : document.addEventListener("keypress", function() {
+                                var letterAttempts = event.key
+                                String.fromCharCode(event)
+                                document.getElementById("keyDetect").innerHTML = letterAttempts.toUpperCase();
+                                function updateLetter() {
+                                    letter = letterAttempts.toUpperCase()
+                                }return letter;
+            }),
+
+            addAttempt      : document.addEventListener("keypress", function() {
+                                var letterAttempts = event.key
+                                String.fromCharCode(event)
+                                guessArray.push(letterAttempts.toUpperCase())
+                                document.getElementById("guessedArray").innerHTML = guessArray;
+                                console.log(guessArray);
+            }),
+        };
+
+
+
+        // function isLetterMatch(result) {
+        //     return keyPressed.letterGuessed();
+        //     console.log(keyPressed.letterGuessed());
+        // };
+
+       console.log(guessArray);
+       console.log(generateWord.convertToArray());
+       console.log(letter);
+
+        
+        document.getElementById("ranWord").innerHTML = generateWord.pickWord;
+        document.getElementById("convertToArray").innerHTML = generateWord.convertToArray();
+        document.getElementById("hideArray").innerHTML = generateWord.hideArray();
+        
 
 
         // function displayLetter();
         // function startMenu();
-        // function hideLetters();
-        // function showLetter();
-        // function generateWord();
-        // function isLetterMatch() {};
         
         
     </script>
