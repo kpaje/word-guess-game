@@ -9,6 +9,7 @@
     <script src="main.js"></script> -->
 </head>
 <body>
+        <h1>GAME OF FUNNY MILITARY ACRONYMS</h1>
         <p id="convertToArray"></p>
         <p id="hideArray"></p>
         <p id="guessedArray"></p>
@@ -16,44 +17,75 @@
         You chose:<p id='letter'></p>
         Your Guesses:<p id='addGuessLetterInput'></p>
         Guesses Remaining:<p id='subtractGuessRemaining'></p>
+        Letter is:<p id='compareGuess'></p>
     
 
 
     <script>
-        // var alphabet     = ['A','B','C','E','F','G','H','I','J','K','L','M','N','O','P','Q','R','S','T','U','V','W','X','Y'];
         var wins            = 0;
         var losses          = 0;
         var guessRemaining  = 9;
         var guessArray      = [];
         var guess           = [];
-        var wordList        = ['FUBAR', 'SNAFU', 'TARFU'];
+        var wordList        = ['FUBAR', 'SNAFU', 'TARFU', 'FUGAZI', 'BCD', 'LLMF', 'MANPADS', 'PPPPPPP'];
         
         var guessGameAction = {
             generateWord: wordList[Math.floor(Math.random()*wordList.length)],
 
-            convertToArray: function() {
+            setWordToArray: function() {
                 return Array.from(this.generateWord);
             },
             hideArray: function() {
-                var randomWord = this.convertToArray();
+                var randomWord = this.setWordToArray();
                     randomWord = randomWord.map(function() {
                         return " _ ";
                     }); 
                     return randomWord;
             },
-            guessInput: function() {
+            logGuessInput: function() {
                 var keyPressed = document.getElementById('letter');
-                keyPressed.textContent = guess.join().toUpperCase();
+                guess = guess.map(function(letter) { 
+                    return letter.toUpperCase(); 
+                });
+                keyPressed.textContent = guess.join();
             },
             addToGuessArray: function() {
                 var addGuessLetterInput = document.getElementById('addGuessLetterInput');
-                addGuessLetterInput.textContent = guessArray.join().toUpperCase();
+                guessArray = guessArray.map(function(array) {
+                    return array.toUpperCase();
+                });
+                addGuessLetterInput.textContent = guessArray.join();
             },
             subtractGuessRemaining: function() {
                 var displayRemainingGuesses = document.getElementById('subtractGuessRemaining');
                 displayRemainingGuesses.textContent = guessRemaining;
             },
-            endGame: function() {
+            positiveMatch: function() {
+                var element = document.getElementById('compareGuess');
+                element.textContent = guess + ' is present';
+            },
+            negativeMatch: function() {
+                var element = document.getElementById('compareGuess');
+                element.textContent = guess + ' is NOT present';
+            },
+            compareGuess: function() {
+                var randomWord = this.setWordToArray();
+                console.log('random word is: ', randomWord);
+                for (var i = 0; i < randomWord.length; i++) {
+                    if (guess.indexOf(randomWord[i]) > -1) {
+                        console.log('wins ', wins++);
+                        return this.positiveMatch();
+                    }
+                    else { 
+                        console.log('losses ', losses++);
+                        this.negativeMatch();
+                    };
+                };
+            },
+            toggleIndex: function() {
+                //search hideArray for matching indexed letters from comparedGuess
+            },
+            gameOver: function() {
                 if(guessRemaining < 1) {
                     var endGameMessage = document.getElementById('subtractGuessRemaining');
                     endGameMessage.textContent = 'GAME OVER';
@@ -62,19 +94,18 @@
         };
 
         var handlers = {
-            convertToArray: function() {
-                document.getElementById("convertToArray").innerHTML = guessGameAction.convertToArray();
+            setWordToArray: function() {
+                document.getElementById("convertToArray").innerHTML = guessGameAction.setWordToArray();
             },
             hideArray: function() {
                 document.getElementById("hideArray").innerHTML = guessGameAction.hideArray();
             },
-            guessInput: function() {
+            logGuessInput: function() {
                 window.addEventListener('keypress', function(event) {
                     if (event.keyCode) {
                         guess.push(event.key);
-                        guessGameAction.guessInput();
-                        guess = [];
-                        console.log('guess = ', guess);
+                        guessGameAction.logGuessInput();
+                        console.log('guess: ', guess);
                     }
                 },false);
                 view.displayGuessGame();
@@ -95,10 +126,16 @@
                     guessGameAction.subtractGuessRemaining();
                 });
             },
+            compareGuess: function() {
+                window.addEventListener('keypress', function() {
+                    guessGameAction.compareGuess();
+                    guess = [];
+                });
+            },
             gameOver: function() {
                 window.addEventListener('keypress', function(event) {
                     if (guessRemaining < 1){
-                        guessGameAction.endGame();
+                        guessGameAction.gameOver();
                     };
                 });
                 view.displayGuessGame();
@@ -111,20 +148,15 @@
             },
         };
 
-        guessGameAction.endGame();
-        handlers.guessInput();
+        guessGameAction.gameOver();
+        handlers.logGuessInput();
         handlers.addToGuessArray();
-        handlers.convertToArray();
+        handlers.setWordToArray();
         handlers.hideArray();
         handlers.subtractGuessRemaining();
         handlers.gameOver();
-
-
-    //     // function isLetterMatch(result) {
-    //     //     return keyPressed.letterGuessed();
-    //     //     console.log(keyPressed.letterGuessed());
-    //     // };
-
+        handlers.compareGuess();
+ 
 
     //     // function winGame
     //     // function loseGame
