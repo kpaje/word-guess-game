@@ -1,12 +1,13 @@
-const guess = "b";
+const guess = "A";
 let wins = 0;
 let losses = 0;
 let guessRemaining = 9;
-let wordArray = ["a", "b", "c"];
+let wordArray = [];
 let guesses = [];
-let randomWord = "qqqqqqqb";
+let randomWord = "qqwertybb";
+const wordObject = {};
 
-const action = {
+const word = {
 	generateWord: function() {
 		const wordList = [
 			"FUBAR",
@@ -15,30 +16,30 @@ const action = {
 			"FUGAZI",
 			"BCD",
 			"LLMF",
-			"MANPADS",
-			"PPPPPPP"
+			"MANPADS"
 		];
 		let randomNumber = Math.random() * wordList.length;
 		let randomInteger = Math.floor(randomNumber);
 		let newWord = wordList[randomInteger];
+
+		console.log("newWord: ", newWord);
 		return newWord;
 	},
 	setWordToArray: function() {
-		wordArray = Array.from(this.generateWord());
+		let generatedWord = this.generateWord();
+		wordArray = Array.from(generatedWord);
+
+		console.log("wordArray: ", wordArray);
+		return wordArray;
 	},
-	createHiddenArray: function() {
+	createObjectFromArray: function() {
 		randomWord = this.setWordToArray();
-		const hiddenArray = randomWord.map(function() {
-			return " _ ";
-		});
-		return hiddenArray;
-	},
-	logGuessInput: function() {
-		guesses.push(guess);
-	},
-	subtractGuessRemaining: function() {
-		let newGuessRemaining = guessRemaining - 1;
-		return newGuessRemaining;
+		for (const key of randomWord) {
+			wordObject[key] = [" - ", key, false];
+		}
+
+		console.log("wordObject: ", wordObject);
+		return wordObject;
 	},
 	isLetterInArray: function(guess) {
 		var findLetterInIndex = wordArray.findIndex(i => i === guess);
@@ -52,6 +53,32 @@ const action = {
 			return false;
 		}
 	},
+	checkForMatchingGuessValue: function(guess) {
+		for (let key in wordObject) {
+			let wordObjectletterValue = wordObject[key][1];
+
+			if (wordObjectletterValue === guess) {
+				wordObject[key][2] = true; // Set wordObject Boolean
+			}
+		}
+
+		console.log("wordObjectAfter: ", wordObject);
+	}
+};
+
+// word.createObjectFromArray();
+word.checkForMatchingGuessValue(guess);
+
+const action = {
+	addGuessInput: function(guess) {
+		guesses.push(guess);
+	},
+	subtractGuessRemaining: function() {
+		let newGuessRemaining = guessRemaining - 1;
+		console.log("guesses remaining: ", newGuessRemaining);
+		return newGuessRemaining;
+	},
+
 	getGuessIndex: function() {
 		const position = randomWord.indexOf(guess.toString());
 		console.log("Index guess position is: ", position);
@@ -64,83 +91,4 @@ const action = {
 	}
 };
 
-guessGameAction.gameOver();
-
-// const handlers = {
-// 	setWordToArray: function() {
-// 		document.getElementById(
-// 			"convertToArray"
-// 		).innerHTML = guessGameAction.setWordToArray();
-// 	},
-// 	hideArray: function() {
-// 		window.addEventListener("pageshow", function(event) {
-// 			document.getElementById(
-// 				"hideArray"
-// 			).innerHTML = guessGameAction.hideArray();
-// 		});
-// 	},
-// 	logGuessInput: function() {
-// 		window.addEventListener(
-// 			"keypress",
-// 			function(event) {
-// 				if (event.keyCode) {
-// 					guess.push(event.key);
-// 					guessGameAction.logGuessInput();
-// 					console.log("guess: ", guess);
-// 				}
-// 			},
-// 			false
-// 		);
-// 		view.displayGuessGame();
-// 	},
-// 	addToGuessArray: function() {
-// 		window.addEventListener(
-// 			"keypress",
-// 			function(event) {
-// 				if (event.keyCode) {
-// 					guessArray.push(event.key);
-// 					guessGameAction.addToGuessArray();
-// 					console.log("guessArray = ", guessArray);
-// 				}
-// 			},
-// 			false
-// 		);
-// 		view.displayGuessGame();
-// 	},
-// 	subtractGuessRemaining: function() {
-// 		window.addEventListener("keypress", function(event) {
-// 			guessRemaining--;
-// 			guessGameAction.subtractGuessRemaining();
-// 		});
-// 	},
-// 	isLetterPresent: function() {
-// 		window.addEventListener("keypress", function() {
-// 			guessGameAction.isLetterPresent();
-// 			guess = [];
-// 		});
-// 	},
-// 	getAllIndexes: function() {
-// 		window.addEventListener("keypress", function(event) {
-// 			guessGameAction.getAllIndexes();
-// 		});
-// 	},
-// 	populateIndexMatches: function() {
-// 		window.addEventListener("keypress", function(event) {
-// 			guessGameAction.populateIndexMatches();
-// 		});
-// 	},
-// 	gameOver: function() {
-// 		window.addEventListener("keypress", function(event) {
-// 			if (guessRemaining < 1) {
-// 				guessGameAction.gameOver();
-// 			}
-// 		});
-// 		view.displayGuessGame();
-// 	}
-// };
-
-// const view = {
-// 	displayGuessGame: function() {
-// 		// call(handlers())
-// 	}
-// };
+// action.getGuessIndex();
