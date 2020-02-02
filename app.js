@@ -1,6 +1,6 @@
 import wordGenerator from "./wordGenerator";
 
-const guess = "A";
+let guess;
 let wins = 0;
 let losses = 0;
 let guessRemaining = 9;
@@ -20,7 +20,7 @@ const checker = {
 		console.log("isMatchingGuessValue: ", wordObject);
 	},
 
-	setMatchingValue: function() {
+	setMatchingValue: function(guess) {
 		for (let key in wordObject) {
 			if (key === guess) {
 				wordObject[key][0] = guess; //set wordObject letter value
@@ -30,19 +30,15 @@ const checker = {
 	}
 };
 
-checker.isMatchingGuessValue(guess);
-checker.setMatchingValue();
-
 const guessAction = {
 	addGuessInput: function(guess) {
 		guesses.push(guess);
 	},
-	subtractGuessRemaining: function() {
+	subtractGuessesRemaining: function() {
 		let newGuessRemaining = guessRemaining - 1;
 		console.log("guesses remaining: ", newGuessRemaining);
 		return newGuessRemaining;
 	},
-
 	getGuessIndex: function() {
 		const position = randomWord.indexOf(guess.toString());
 		console.log("Index guess position is: ", position);
@@ -54,3 +50,17 @@ const guessAction = {
 		}
 	}
 };
+
+const handlers = {
+	resolveGuessInput: function(guess) {
+		guessAction.addGuessInput(guess);
+		checker.isMatchingGuessValue(guess);
+		checker.setMatchingValue(guess);
+
+		console.log("wordObject: ", wordObject);
+		console.log("guesses: ", guesses);
+	}
+};
+
+handlers.resolveGuessInput("A");
+handlers.resolveGuessInput("F");

@@ -11,7 +11,8 @@ const wordGenerator = {
 		];
 		let randomNumber = Math.random() * wordList.length;
 		let randomInteger = Math.floor(randomNumber);
-		return wordList[randomInteger];
+		let genereatedWord = wordList[randomInteger];
+		return genereatedWord;
 	},
 	setWordToArray: function(word) {
 		return Array.from(word);
@@ -28,9 +29,9 @@ const wordGenerator = {
 		const wordArray = wordGenerator.setWordToArray(newWord);
 		const wordObject = wordGenerator.generateObjectFromArray(wordArray);
 
-		console.log("newWord: ", newWord);
-		console.log("wordArray: ", wordArray);
-		console.log("wordObject: ", wordObject);
+		// console.log("newWord: ", newWord);
+		// console.log("wordArray: ", wordArray);
+		// console.log("wordObject: ", wordObject);
 		return wordObject;
 	}
 };
