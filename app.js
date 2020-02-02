@@ -1,9 +1,12 @@
+const guess = "b";
 let wins = 0;
 let losses = 0;
 let guessRemaining = 9;
-let wordArray = [];
+let wordArray = ["a", "b", "c"];
+let guesses = [];
+let randomWord = "qqqqqqqb";
 
-const guessGameAction = {
+const action = {
 	generateWord: function() {
 		const wordList = [
 			"FUBAR",
@@ -22,7 +25,6 @@ const guessGameAction = {
 	},
 	setWordToArray: function() {
 		wordArray = Array.from(this.generateWord());
-		console.log(wordArray);
 	},
 	createHiddenArray: function() {
 		randomWord = this.setWordToArray();
@@ -32,79 +34,37 @@ const guessGameAction = {
 		return hiddenArray;
 	},
 	logGuessInput: function() {
-		const guesses = [];
-		guess = "a";
 		guesses.push(guess);
+	},
+	subtractGuessRemaining: function() {
+		let newGuessRemaining = guessRemaining - 1;
+		return newGuessRemaining;
+	},
+	isLetterInArray: function(guess) {
+		var findLetterInIndex = wordArray.findIndex(i => i === guess);
+		const noMatches = -1;
+
+		if (findLetterInIndex != noMatches) {
+			console.log("Letter [" + guess + "] is in Array");
+			return true;
+		} else {
+			console.log("Letter [" + guess + "] is not in Array");
+			return false;
+		}
+	},
+	getGuessIndex: function() {
+		const position = randomWord.indexOf(guess.toString());
+		console.log("Index guess position is: ", position);
+		return position;
+	},
+	gameOver: function() {
+		if (guessRemaining < 1) {
+			console.log("GAME OVER");
+		}
 	}
-	// addToGuessArray: function() {
-	// 	const addGuessLetterInput = document.getElementById("addGuessLetterInput");
-	// 	guessArray = guessArray.map(function(array) {
-	// 		return array.toUpperCase();
-	// 	});
-	// 	addGuessLetterInput.textContent = guessArray.join();
-	// }
-	// subtractGuessRemaining: function() {
-	// 	const displayRemainingGuesses = document.getElementById(
-	// 		"subtractGuessRemaining"
-	// 	);
-	// 	displayRemainingGuesses.textContent = guessRemaining;
-	// },
-	// positiveMatch: function() {
-	// 	const element = document.getElementById("isLetterPresent");
-	// 	element.textContent = guess + " is present";
-	// },
-	// negativeMatch: function() {
-	// 	const element = document.getElementById("isLetterPresent");
-	// 	element.textContent = guess + " is NOT present";
-	// },
-	// isLetterPresent: function() {
-	// 	console.log("random word is: ", randomWord);
-	// 	if (randomWord.includes(guess[0])) {
-	// 		this.positiveMatch();
-	// 	} else {
-	// 		this.negativeMatch();
-	// 	}
-	// 	this.showMatchingLetter();
-	// },
-	// toggleIntegerPositions: function() {
-	// 	const position = randomWord.indexOf(guess.toString());
-	// 	return position;
-	// 	console.log("guess converted ", guess.toString());
-	// 	console.log("integer position ", position);
-	// },
-	// getAllIndexes: function() {
-	// 	for (i = 0; i < randomWord.length; i++) {
-	// 		if (!randomWord[i].indexOf(guessArray) && randomWord[i] == guess) {
-	// 			indexMatches.push(i);
-	// 		}
-	// 		console.log("getallindexes ", indexMatches);
-	// 		return;
-	// 	}
-	// },
-	// populateIndexMatches: function() {
-	// 	indexMatches.forEach(function(integer) {
-	// 		return hiddenArray.splice(integer, 1, guess);
-	// 	});
-	// },
-	// showMatchingLetter: function() {
-	// 	const position = this.toggleIntegerPositions();
-	// 	if (position != -1) {
-	// 		randomWord.map(function(match) {
-	// 			if (match == guess) hiddenArray.splice(position, 1, guess);
-	// 		});
-	// 		document.getElementById("hideArray").innerHTML = hiddenArray;
-	// 		console.log("position", position);
-	// 		console.log("randomWord[position]: ", randomWord[position]);
-	// 		console.log("updated hidden array: ", hiddenArray);
-	// 	}
-	// },
-	// gameOver: function() {
-	// 	if (guessRemaining < 1) {
-	// 		const endGameMessage = document.getElementById("subtractGuessRemaining");
-	// 		endGameMessage.textContent = "GAME OVER";
-	// 	}
-	// }
 };
+
+guessGameAction.gameOver();
 
 // const handlers = {
 // 	setWordToArray: function() {
@@ -184,20 +144,3 @@ const guessGameAction = {
 // 		// call(handlers())
 // 	}
 // };
-guessGameAction.setWordToArray();
-
-// guessGameAction.gameOver();
-// handlers.logGuessInput();
-// handlers.addToGuessArray();
-// handlers.setWordToArray();
-// handlers.hideArray();
-// handlers.subtractGuessRemaining();
-// handlers.gameOver();
-// handlers.isLetterPresent();
-// handlers.getAllIndexes();
-// handlers.populateIndexMatches();
-
-// function winGame
-// function loseGame
-// function resetGame
-// function startMenu();
