@@ -61,7 +61,8 @@ const handlers = {
 		// console.log("guesses: ", guesses);
 	},
 	checkIfAllTrue: function(object) {
-		let isAllTrue = Object.keys(object).every(key => {
+		let objectKeys = Object.keys(object);
+		let isAllTrue = objectKeys.every(key => {
 			let boolean = object[key][1];
 			return boolean;
 		});
