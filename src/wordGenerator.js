@@ -1,7 +1,8 @@
+/* eslint-disable no-restricted-syntax */
 const wordGenerator = {
-  generateWord: function() {
+  generateWord() {
     const wordList = [
-      "FUBAR"
+      'FUBAR',
       // "SNAFU",
       // "TARFU",
       // "FUGAZI",
@@ -9,30 +10,30 @@ const wordGenerator = {
       // "LLMF",
       // "MANPADS"
     ];
-    let randomNumber = Math.random() * wordList.length;
-    let randomInteger = Math.floor(randomNumber);
-    let genereatedWord = wordList[randomInteger];
+    const randomNumber = Math.random() * wordList.length;
+    const randomInteger = Math.floor(randomNumber);
+    const genereatedWord = wordList[randomInteger];
     return genereatedWord;
   },
-  setWordToArray: function(word) {
+  setWordToArray(word) {
     return Array.from(word);
   },
-  generateObjectFromArray: function(array) {
-    let object = {};
+  generateObjectFromArray(array) {
+    const object = {};
     for (const key of array) {
-      object[key] = [" - ", false];
+      object[key] = [' - ', false];
     }
     return object;
   },
-  createWordObject: function() {
+  createWordObject() {
     const newWord = wordGenerator.generateWord();
     const wordArray = wordGenerator.setWordToArray(newWord);
     const wordObject = wordGenerator.generateObjectFromArray(wordArray);
     return wordObject;
-  }
+  },
 };
 
-export default wordGenerator;
+module.exports = wordGenerator;
 
 // console.log("newWord: ", newWord);
 // console.log("wordArray: ", wordArray);
