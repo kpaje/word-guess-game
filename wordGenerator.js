@@ -1,13 +1,13 @@
 const wordGenerator = {
 	generateWord: function() {
 		const wordList = [
-			"FUBAR",
-			"SNAFU",
-			"TARFU",
-			"FUGAZI",
-			"BCD",
-			"LLMF",
-			"MANPADS"
+			"FUBAR"
+			// "SNAFU",
+			// "TARFU",
+			// "FUGAZI",
+			// "BCD",
+			// "LLMF",
+			// "MANPADS"
 		];
 		let randomNumber = Math.random() * wordList.length;
 		let randomInteger = Math.floor(randomNumber);
