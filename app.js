@@ -40,6 +40,22 @@ const guessAction = {
 	},
 	subtractGuessesRemaining: function() {
 		guessRemaining = guessRemaining - 1;
+	}
+};
+
+const handlers = {
+	resolveGuessInput: function(guess) {
+		guessAction.subtractGuessesRemaining();
+		guessAction.addGuessInput(guess);
+	},
+	resolveObjects: function(guess) {
+		objectAction.setMatchingBooleanValue(guess);
+		objectAction.setMatchingGuessValue(guess);
+		objectAction.isAllBooleansTrue(wordObject);
+	},
+	resolveEntry: function(guess) {
+		handlers.resolveGuessInput(guess);
+		handlers.resolveObjects(guess);
 	},
 	gameOver: function() {
 		if (guessRemaining < 1) {
@@ -48,21 +64,11 @@ const guessAction = {
 	}
 };
 
-const handlers = {
-	resolveGuessInput: function(guess) {
-		guessAction.subtractGuessesRemaining();
-		guessAction.addGuessInput(guess);
-		objectAction.setMatchingBooleanValue(guess);
-		objectAction.setMatchingGuessValue(guess);
-		objectAction.isAllBooleansTrue(wordObject);
-	}
-};
-
-handlers.resolveGuessInput("F");
-handlers.resolveGuessInput("U");
-// handlers.resolveGuessInput("B");
-handlers.resolveGuessInput("A");
-handlers.resolveGuessInput("R");
+handlers.resolveEntry("F");
+handlers.resolveEntry("U");
+// handlers.resolveEntry("B");
+handlers.resolveEntry("A");
+handlers.resolveEntry("R");
 // objectAction.isAllBooleansTrue(wordObject);
 console.log("guessRemainingUPDATED: ", guessRemaining);
 console.log("wordObject: ", wordObject);
