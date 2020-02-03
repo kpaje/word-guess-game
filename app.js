@@ -23,6 +23,12 @@ const objectAction = {
       }
     }
   },
+  setGameWord: function() {
+    for (let key in wordObject) {
+      let blankKey = wordObject[key][0];
+      console.log([blankKey]); //set wordObject to mystery values
+    }
+  },
   isAllBooleansTrue: function(object) {
     let objectKeys = Object.keys(object);
     let isAllTrue = objectKeys.every(key => {
@@ -68,6 +74,8 @@ const resolver = {
   }
 };
 
+objectAction.setGameWord();
+
 inquirer
   .prompt([
     {
@@ -80,7 +88,8 @@ inquirer
     console.info("Your Guess: ", guess);
 
     resolver.resolveUserEntry(guess);
-    console.log("wordObject: ", wordObject);
+    // console.log("wordObject: ", wordObject);
+    objectAction.setGameWord();
   });
 
 // resolver.resolveUserEntry("F");
