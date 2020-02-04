@@ -1,16 +1,16 @@
 const resolver = {
   resolveGuessInput(guess) {
-    guessAction.subtractGuessesRemaining();
-    guessAction.addGuessInput(guess);
+    subtractGuessesRemaining();
+    addGuessInput(guess);
   },
   resolveObjects(guess) {
-    objectAction.setMatchingBooleanValue(guess);
-    objectAction.setMatchingGuessValue(guess);
-    objectAction.isAllBooleansTrue(wordObject);
+    setMatchingBooleanValue(guess);
+    setMatchingGuessValue(guess);
+    isAllBooleansTrue(wordObject);
   },
   resolveUserEntry(guess) {
-    resolver.resolveGuessInput(guess);
-    resolver.resolveObjects(guess);
+    resolveGuessInput(guess);
+    resolveObjects(guess);
   },
   gameOver() {
     if (guessRemaining < 1) {

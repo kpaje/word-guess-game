@@ -17,6 +17,6 @@ export const arrayOfObjects = array => {
 
 export const setArrayofObjects = word => {
   let wordArray = Array.from(word);
-  let formatArrayOfObjects = arrayOfObjects(wordArray);
-  return formatArrayOfObjects;
+  let arrayOfObjectsRes = arrayOfObjects(wordArray);
+  return arrayOfObjectsRes;
 };
