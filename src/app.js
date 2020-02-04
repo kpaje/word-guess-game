@@ -1,12 +1,12 @@
 import React from "react";
 import "./App.css";
-import WordGenerator from "./components/WordGenerator";
+import GameWord from "./components/GameWord";
 
 function App() {
   return (
     <div className="App">
       <header className="App-header">
-        <WordGenerator />
+        <GameWord />
       </header>
     </div>
   );
