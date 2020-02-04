@@ -1,4 +1,4 @@
-const wordGenerator = require('./components/wordGenerator');
+const wordGenerator = require("./components/WordGenerator");
 
 let wins = 0;
 let losses = 0;
@@ -35,10 +35,10 @@ const objectAction = {
     });
 
     if (isAllTrue === true) {
-      console.log('YOU WIN');
+      console.log("YOU WIN");
       wins += 1;
     }
-  },
+  }
 };
 
 const guessAction = {
@@ -47,7 +47,7 @@ const guessAction = {
   },
   subtractGuessesRemaining() {
     guessRemaining -= 1;
-  },
+  }
 };
 
 const resolver = {
@@ -66,10 +66,10 @@ const resolver = {
   },
   gameOver() {
     if (guessRemaining < 1) {
-      console.log('GAME OVER');
+      console.log("GAME OVER");
       losses += 1;
     }
-  },
+  }
 };
 
 objectAction.setGameWord();
