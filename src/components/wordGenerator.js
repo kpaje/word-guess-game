@@ -1,44 +1,55 @@
 import React, { Component } from "react";
-import { TEST_OBJECT } from "../common/constants";
 import { WORD_LIST } from "../common/constants";
 
-const generateWord = () => {
+let generatedWord;
+
+const randomWord = () => {
   const randomNumber = Math.random() * WORD_LIST.length;
   const randomInteger = Math.floor(randomNumber);
-  const genereatedWord = WORD_LIST[randomInteger];
-  return genereatedWord;
+  const randomWord = WORD_LIST[randomInteger];
+  return randomWord;
 };
-const setWordToArray = word => {
-  return Array.from(word);
+
+const setRandomWord = () => {
+  generatedWord = randomWord();
+  return generatedWord;
 };
-const generateObjectFromArray = array => {
-  let word = generateWord();
-  word = setWordToArray(word);
 
-  console.log(word);
-
-  const newArr = [];
-  const newObj = {
-    answer: "X",
+const formatObjects = (letter, array) => {
+  const newObject = {
+    answer: letter,
     hidden: "-",
     reveal: false
   };
-
-  newArr.push(newObj);
-  console.log(newArr);
-
-  return newObj;
+  return array.push(newObject);
 };
-const createWordObject = () => {
-  const newWord = generateWord();
-  const wordArray = setWordToArray(newWord);
-  const wordObject = generateObjectFromArray(wordArray);
-  return wordObject;
+
+const arrayOfObjects = array => {
+  const arrayOfObjects = [];
+  array.forEach(element => {
+    formatObjects(element, arrayOfObjects);
+  });
+  return arrayOfObjects;
+};
+
+const setArrayofObjects = word => {
+  let wordArray = Array.from(word);
+  let formatArrayOfObjects = arrayOfObjects(wordArray);
+  return formatArrayOfObjects;
+};
+
+const renderRandomWord = () => {
+  setRandomWord();
+  let arrayofObjects = setArrayofObjects(generatedWord);
+  let gameWord = Object.entries(arrayofObjects).map(([key, value], index) => {
+    return <div key={key}>{value.answer}</div>;
+  });
+  return gameWord;
 };
 
 const renderObject = () => {
-  generateObjectFromArray();
-  return Object.entries(TEST_OBJECT).map(([key, value], index) => {
+  let arrayofObjects = setArrayofObjects(generatedWord);
+  return Object.entries(arrayofObjects).map(([key, value], index) => {
     return (
       <div key={key}>
         <p>answer: {value.answer}</p>
@@ -55,7 +66,7 @@ export default class WordGenerator extends Component {
     return (
       <div>
         <div>
-          <div>Generated Word: {generateWord()}</div>
+          <div>{renderRandomWord()}</div>
           <h2>wordGenerator</h2>
           {renderObject()}
         </div>
