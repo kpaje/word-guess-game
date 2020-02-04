@@ -2,18 +2,55 @@ import React from "react";
 import { useState, useEffect } from "react";
 
 export default function Guess() {
+  let keysPressed = [];
+  const happyPress = useKeyPress("a");
+  const sadPress = useKeyPress("s");
+  const robotPress = useKeyPress("d");
+  const foxPress = useKeyPress("f");
+
+  //   function useKey(key) {
+  //     // Keep track of key state
+  //     const [pressed, setPressed] = useState(false)
+
+  //     // Does an event match the key we're watching?
+  //     const match = event => key.toLowerCase() == event.key.toLowerCase()
+
+  //     // Event handlers
+  //     const onDown = event => {
+  //         if (match(event)) setPressed(true)
+  //     }
+
+  //     const onUp = event => {
+  //         if (match(event)) setPressed(false)
+  //     }
+
+  //     // Bind and unbind events
+  //     useEffect(() => {
+  //         window.addEventListener("keydown", onDown)
+  //         window.addEventListener("keyup", onUp)
+  //         return () => {
+  //             window.removeEventListener("keydown", onDown)
+  //             window.removeEventListener("keyup", onUp)
+  //         }
+  //     }, [key])
+
+  //     return pressed
+  // }
+
   function useKeyPress(targetKey) {
     const [keyPressed, setKeyPressed] = useState(false);
 
-    function keyDownHandler({ key }) {
+    const keyDownHandler = ({ key }) => {
       if (key === targetKey) {
         setKeyPressed(true);
       }
-    }
-    // If released key is our target key then set to false
+    };
+
     const upHandler = ({ key }) => {
       if (key === targetKey) {
         setKeyPressed(false);
+        keysPressed.push(key);
+        console.log(keysPressed);
       }
     };
 
@@ -30,14 +67,10 @@ export default function Guess() {
     return keyPressed;
   }
 
-  const happyPress = useKeyPress("a");
-  const sadPress = useKeyPress("s");
-  const robotPress = useKeyPress("d");
-  const foxPress = useKeyPress("f");
-
   return (
     <div>
       <div>a, s, d, f</div>
+      <div>{String(keysPressed)}</div>
       <div>
         {happyPress && "😊"}
         {sadPress && "😢"}
