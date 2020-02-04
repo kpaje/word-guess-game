@@ -1,4 +1,4 @@
-const wordGenerator = require('./wordGenerator');
+const wordGenerator = require('./components/wordGenerator');
 
 let wins = 0;
 let losses = 0;

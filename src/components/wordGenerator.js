@@ -1,4 +1,6 @@
-const wordGenerator = {
+import React, { Component } from 'react';
+
+export default class wordGenerator extends Component {
   generateWord() {
     const wordList = [
       'FUBAR',
@@ -13,27 +15,29 @@ const wordGenerator = {
     const randomInteger = Math.floor(randomNumber);
     const genereatedWord = wordList[randomInteger];
     return genereatedWord;
-  },
+  }
   setWordToArray(word) {
     return Array.from(word);
-  },
+  }
   generateObjectFromArray(array) {
     const object = {};
     for (const key of array) {
       object[key] = [' - ', false];
     }
     return object;
-  },
+  }
   createWordObject() {
     const newWord = wordGenerator.generateWord();
     const wordArray = wordGenerator.setWordToArray(newWord);
     const wordObject = wordGenerator.generateObjectFromArray(wordArray);
     return wordObject;
-  },
-};
+  }
 
-module.exports = wordGenerator;
+  // console.log("newWord: ", newWord);
+  // console.log("wordArray: ", wordArray);
+  // console.log("wordObject: ", wordObject);
 
-// console.log("newWord: ", newWord);
-// console.log("wordArray: ", wordArray);
-// console.log("wordObject: ", wordObject);
+  render() {
+    return <div>wordGenerator</div>;
+  }
+}
