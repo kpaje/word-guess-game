@@ -15,7 +15,7 @@ export const arrayOfObjects = array => {
   return arrayOfObjects;
 };
 
-export const setArrayofObjects = word => {
+export const createArrayOfObjects = word => {
   let wordArray = Array.from(word);
   let arrayOfObjectsRes = arrayOfObjects(wordArray);
   return arrayOfObjectsRes;

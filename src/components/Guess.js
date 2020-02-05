@@ -15,6 +15,7 @@ export default function Guess() {
     };
 
     const upHandler = ({ key }) => {
+      // setkeyValue("");
       console.log(keyArray);
     };
 

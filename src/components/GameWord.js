@@ -1,42 +1,42 @@
-import React, { Component } from "react";
-import { setArrayofObjects } from "../scripts/objectAction";
+import React, { useState } from "react";
+import { createArrayOfObjects } from "../scripts/objectAction";
 import { randomWord } from "../scripts/wordGenerator";
 
-let generatedWord = randomWord();
-let arrayofObjects = setArrayofObjects(generatedWord);
+export default function GameWord() {
+  const [generatedWord, setgeneratedWord] = useState(randomWord());
+  const [arrayOfObjects, setarrayOfObjects] = useState(
+    createArrayOfObjects(generatedWord)
+  );
 
-const renderRandomWord = () => {
-  return Object.entries(arrayofObjects).map(([key, value]) => {
-    return <span key={key}> {value.answer}</span>;
-  });
-};
+  const renderRandomWord = () => {
+    return Object.entries(arrayOfObjects).map(([key, value]) => {
+      return <span key={key}> {value.answer}</span>;
+    });
+  };
 
-const renderObject = () => {
-  return Object.entries(arrayofObjects).map(([key, value]) => {
-    return (
-      <tr key={key}>
-        <td>{value.answer}</td>
-        <td>{value.hidden}</td>
-        <td>{String(value.reveal)}</td>
-      </tr>
-    );
-  });
-};
+  const renderObject = () => {
+    return Object.entries(arrayOfObjects).map(([key, value]) => {
+      return (
+        <tr key={key}>
+          <td>{value.answer}</td>
+          <td>{value.hidden}</td>
+          <td>{String(value.reveal)}</td>
+        </tr>
+      );
+    });
+  };
 
-export default class GameWord extends Component {
-  render() {
-    return (
-      <React.Fragment>
-        <h2>GameWord: {renderRandomWord()}</h2>
-        <table>
-          <tr>
-            <th>-Answer-</th>
-            <th>-Hidden-</th>
-            <th>-Reveal-</th>
-          </tr>
-          {renderObject()}
-        </table>
-      </React.Fragment>
-    );
-  }
+  return (
+    <React.Fragment>
+      <h2>GameWord: {renderRandomWord()}</h2>
+      <table>
+        <tr>
+          <th>-Answer-</th>
+          <th>-Hidden-</th>
+          <th>-Reveal-</th>
+        </tr>
+        {renderObject()}
+      </table>
+    </React.Fragment>
+  );
 }
