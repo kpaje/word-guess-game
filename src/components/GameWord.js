@@ -1,3 +1,4 @@
+/* eslint-disable no-unused-vars */
 import React, { useState, useEffect, useContext } from "react";
 import RenderObject from "./RenderObject";
 import { createArrayOfObjects } from "../scripts/objectAction";
@@ -9,6 +10,7 @@ export default function GameWord() {
 	const [arrayOfObjects, setarrayOfObjects] = useState(
 		createArrayOfObjects(generatedWord)
 	);
+	const guess = useContext(GuessValueContext);
 
 	const renderRandomWord = () => {
 		return Object.entries(arrayOfObjects).map(([key, value]) => {
@@ -16,7 +18,6 @@ export default function GameWord() {
 		});
 	};
 
-	const guess = useContext(GuessValueContext);
 	const useKeyPress = () => {
 		const verfiyHiddenValue = inputGuess => {
 			for (const key in arrayOfObjects) {

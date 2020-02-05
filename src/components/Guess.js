@@ -60,7 +60,7 @@ export default function Guess() {
 		}, []); // Empty array ensures that effect is only run on mount and unmount
 	};
 
-	const guess = { guessValue: guessValue, loggedIn: true };
+	const guess = { guessValue: guessValue };
 
 	return (
 		<React.Fragment>
