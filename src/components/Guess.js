@@ -30,10 +30,10 @@ export default function Guess() {
   };
 
   return (
-    <div>
+    <React.Fragment>
       {useKeyPress()}
-      <h2>keyPressed: {keyValue}</h2>
+      <h2>KeyPressed: {keyValue}</h2>
       <h2>KeyArray: {keyArray}</h2>
-    </div>
+    </React.Fragment>
   );
 }

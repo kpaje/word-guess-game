@@ -26,20 +26,17 @@ const renderObject = () => {
 export default class GameWord extends Component {
   render() {
     return (
-      <div>
-        <div>
-          <h2>GameWord: {renderRandomWord()}</h2>
-          <h2>wordGenerator</h2>
-          <table>
-            <tr>
-              <th>-Answer-</th>
-              <th>-Hidden-</th>
-              <th>-Reveal-</th>
-            </tr>
-            {renderObject()}
-          </table>
-        </div>
-      </div>
+      <React.Fragment>
+        <h2>GameWord: {renderRandomWord()}</h2>
+        <table>
+          <tr>
+            <th>-Answer-</th>
+            <th>-Hidden-</th>
+            <th>-Reveal-</th>
+          </tr>
+          {renderObject()}
+        </table>
+      </React.Fragment>
     );
   }
 }
