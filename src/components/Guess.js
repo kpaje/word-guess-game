@@ -2,20 +2,21 @@ import React from "react";
 import { useState, useEffect } from "react";
 
 export default function Guess() {
-  const [keyValue, setkeyValue] = useState("");
-  const [keyArray, setkeyArray] = useState([]);
+  const [keyValue, setKeyValue] = useState("");
+  const [keyArray, setKeyArray] = useState([]);
+  const [guesses, setGuesses] = useState(0);
 
   const useKeyPress = () => {
     const keyDownHandler = ({ key }) => {
       key = key.toUpperCase();
-      setkeyValue(key);
-      setkeyArray(key);
+      setKeyValue(key);
+      setKeyArray(key);
       keyArray.push(key);
-      setkeyArray(keyArray);
+      setKeyArray(keyArray);
     };
 
     const upHandler = ({ key }) => {
-      // setkeyValue("");
+      setGuesses(keyArray.length);
       console.log(keyArray);
     };
 
@@ -33,6 +34,7 @@ export default function Guess() {
   return (
     <React.Fragment>
       {useKeyPress()}
+      <h2>Guesses: {guesses}</h2>
       <h2>KeyPressed: {keyValue}</h2>
       <h2>KeyArray: {keyArray}</h2>
     </React.Fragment>

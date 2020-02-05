@@ -30,12 +30,14 @@ export default function GameWord() {
     <React.Fragment>
       <h2>GameWord: {renderRandomWord()}</h2>
       <table>
-        <tr>
-          <th>-Answer-</th>
-          <th>-Hidden-</th>
-          <th>-Reveal-</th>
-        </tr>
-        {renderObject()}
+        <tbody>
+          <tr>
+            <th>-Answer-</th>
+            <th>-Hidden-</th>
+            <th>-Reveal-</th>
+          </tr>
+          {renderObject()}
+        </tbody>
       </table>
     </React.Fragment>
   );
