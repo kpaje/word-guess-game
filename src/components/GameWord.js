@@ -20,10 +20,21 @@ export default function GameWord() {
 
 	const useKeyPress = () => {
 		const verfiyHiddenValue = inputGuess => {
+			verifyIfAllRevealed();
 			for (const key in arrayOfObjects) {
 				if (arrayOfObjects[key].answer === inputGuess) {
 					arrayOfObjects[key].hidden = inputGuess;
+					arrayOfObjects[key].reveal = true;
 				}
+			}
+		};
+
+		const verifyIfAllRevealed = () => {
+			const isAllTrue = Object.keys(arrayOfObjects).every(
+				key => arrayOfObjects[key].reveal === true
+			);
+			if (isAllTrue) {
+				guess.contextUpdateGameStatus();
 			}
 		};
 

@@ -60,11 +60,15 @@ export default function Guess() {
 		}, []); // Empty array ensures that effect is only run on mount and unmount
 	};
 
-	const guess = { guessValue: guessValue };
+	const contextUpdateGameStatus = () => {
+		setGameStatus("YOU WIN");
+	};
 
 	return (
 		<React.Fragment>
-			<ContextProvider value={guess}>
+			<ContextProvider
+				value={{ guessValue, gameStatus, contextUpdateGameStatus }}
+			>
 				<GameWord />
 			</ContextProvider>
 
