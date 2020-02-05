@@ -1,6 +1,7 @@
-import React from "react";
-import { useState, useEffect } from "react";
+import React, { useState, useEffect } from "react";
+import { ContextProvider } from "./GuessValueContext";
 import GuessValue from "./GuessValue";
+import GameWord from "./GameWord";
 
 export default function Guess() {
 	const [guessValue, setGuessValue] = useState("");
@@ -50,7 +51,7 @@ export default function Guess() {
 
 		const keyUpHandler = () => {
 			setGuessCount(guessArray.length);
-			console.log(guessArray);
+			// console.log(guessArray);
 		};
 
 		useEffect(() => {
@@ -59,8 +60,14 @@ export default function Guess() {
 		}, []); // Empty array ensures that effect is only run on mount and unmount
 	};
 
+	const guess = { guessValue: guessValue, loggedIn: true };
+
 	return (
 		<React.Fragment>
+			<ContextProvider value={guess}>
+				<GameWord />
+			</ContextProvider>
+
 			{useKeyPress()}
 			<h2>GuessCount: {guessCount}</h2>
 			<h2>GuessArray: {guessArray}</h2>

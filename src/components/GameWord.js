@@ -1,7 +1,8 @@
-import React, { useState } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import RenderObject from "./RenderObject";
 import { createArrayOfObjects } from "../scripts/objectAction";
 import { randomWord } from "../scripts/wordGenerator";
+import GuessValueContext from "./GuessValueContext";
 
 export default function GameWord() {
 	const [generatedWord, setgeneratedWord] = useState(randomWord());
@@ -15,18 +16,25 @@ export default function GameWord() {
 		});
 	};
 
-	const checkHiddenValue = guess => {
-		for (const key in arrayOfObjects) {
-			if (arrayOfObjects[key].answer === guess) {
-				arrayOfObjects[key].hidden = guess;
+	const guess = useContext(GuessValueContext);
+	const useKeyPress = () => {
+		const verfiyHiddenValue = inputGuess => {
+			for (const key in arrayOfObjects) {
+				if (arrayOfObjects[key].answer === inputGuess) {
+					arrayOfObjects[key].hidden = inputGuess;
+				}
 			}
-		}
+		};
+
+		useEffect(() => {
+			window.addEventListener("keyup", verfiyHiddenValue(guess.guessValue));
+		});
 	};
-	checkHiddenValue("F");
-	checkHiddenValue("B");
 
 	return (
 		<React.Fragment>
+			{useKeyPress()}
+
 			<h2>GameWord: {renderRandomWord()}</h2>
 			<table>
 				<tbody>
