@@ -29,9 +29,12 @@ export default function Guess() {
   };
 
   const useKeyPress = () => {
-    const keyDownHandler = ({ key }) => {
+    const keyDownHandler = event => {
+      if (event.repeat) {
+        return;
+      }
       if (keyArray.length < 10) {
-        gameOn(key);
+        gameOn(event.key);
       } else {
         gameOver();
       }
