@@ -5,6 +5,7 @@ export default function Guess() {
   const [keyValue, setKeyValue] = useState("");
   const [keyArray, setKeyArray] = useState([]);
   const [guesses, setGuesses] = useState(0);
+  const [gameStatus, setGameStatus] = useState("IN PLAY");
 
   const useKeyPress = () => {
     const keyDownHandler = ({ key }) => {
@@ -17,6 +18,9 @@ export default function Guess() {
 
     const upHandler = ({ key }) => {
       setGuesses(keyArray.length);
+      if (keyArray.length > 9) {
+        setGameStatus("GAME OVER");
+      }
       console.log(keyArray);
     };
 
@@ -31,13 +35,22 @@ export default function Guess() {
     }, []); // Empty array ensures that effect is only run on mount and unmount
   };
 
+  const restartGame = () => {
+    setGameStatus("IN PLAY");
+    setGuesses(0);
+    setKeyValue("");
+    setKeyArray((keyArray.length = 0));
+    setKeyArray([]);
+  };
+
   return (
     <React.Fragment>
       {useKeyPress()}
       <h2>Guesses: {guesses}</h2>
-      {keyArray.length > 9 ? <h2>GAME OVER</h2> : null}
-      <h2>KeyPressed: {keyValue}</h2>
       <h2>KeyArray: {keyArray}</h2>
+      <h2>KeyPressed: {keyValue}</h2>
+      <h2>GameStatus: {gameStatus}</h2>
+      <button onClick={() => restartGame()}>RESTART GAME</button>
     </React.Fragment>
   );
 }
