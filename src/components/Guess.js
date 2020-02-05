@@ -7,20 +7,38 @@ export default function Guess() {
   const [guesses, setGuesses] = useState(0);
   const [gameStatus, setGameStatus] = useState("IN PLAY");
 
+  const restartGame = () => {
+    setGameStatus("IN PLAY");
+    setGuesses(0);
+    setKeyValue("");
+    setKeyArray((keyArray.length = 0));
+    setKeyArray([]);
+  };
+
+  const gameOn = key => {
+    key = key.toUpperCase();
+    setKeyValue(key);
+    setKeyArray(key);
+    keyArray.push(key);
+    setKeyArray(keyArray);
+  };
+
+  const gameOver = () => {
+    setGameStatus("GAME OVER");
+    keyArray.splice(10, 1);
+  };
+
   const useKeyPress = () => {
     const keyDownHandler = ({ key }) => {
-      key = key.toUpperCase();
-      setKeyValue(key);
-      setKeyArray(key);
-      keyArray.push(key);
-      setKeyArray(keyArray);
+      if (keyArray.length < 10) {
+        gameOn(key);
+      } else {
+        gameOver();
+      }
     };
 
     const upHandler = ({ key }) => {
       setGuesses(keyArray.length);
-      if (keyArray.length > 9) {
-        setGameStatus("GAME OVER");
-      }
       console.log(keyArray);
     };
 
@@ -33,14 +51,6 @@ export default function Guess() {
         window.removeEventListener("keyup", upHandler);
       };
     }, []); // Empty array ensures that effect is only run on mount and unmount
-  };
-
-  const restartGame = () => {
-    setGameStatus("IN PLAY");
-    setGuesses(0);
-    setKeyValue("");
-    setKeyArray((keyArray.length = 0));
-    setKeyArray([]);
   };
 
   return (
