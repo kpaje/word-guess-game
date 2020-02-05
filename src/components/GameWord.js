@@ -1,54 +1,43 @@
 import React, { useState } from "react";
+import RenderObject from "./RenderObject";
 import { createArrayOfObjects } from "../scripts/objectAction";
 import { randomWord } from "../scripts/wordGenerator";
 
 export default function GameWord() {
-  const [generatedWord, setgeneratedWord] = useState(randomWord());
-  const [arrayOfObjects, setarrayOfObjects] = useState(
-    createArrayOfObjects(generatedWord)
-  );
+	const [generatedWord, setgeneratedWord] = useState(randomWord());
+	const [arrayOfObjects, setarrayOfObjects] = useState(
+		createArrayOfObjects(generatedWord)
+	);
 
-  const renderRandomWord = () => {
-    return Object.entries(arrayOfObjects).map(([key, value]) => {
-      return <span key={key}> {value.answer}</span>;
-    });
-  };
+	const renderRandomWord = () => {
+		return Object.entries(arrayOfObjects).map(([key, value]) => {
+			return <span key={key}> {value.answer}</span>;
+		});
+	};
 
-  const updateObject = () => {
-    console.log(arrayOfObjects);
-    console.log(arrayOfObjects[0].hidden);
-    let updated = arrayOfObjects[0].hidden;
-    updated = "F";
-    console.log(updated);
-    console.log(arrayOfObjects);
-  };
+	const checkHiddenValue = guess => {
+		for (const key in arrayOfObjects) {
+			if (arrayOfObjects[key].answer === guess) {
+				arrayOfObjects[key].hidden = guess;
+			}
+		}
+	};
+	checkHiddenValue("F");
+	checkHiddenValue("B");
 
-  const renderObject = () => {
-    return Object.entries(arrayOfObjects).map(([key, value]) => {
-      return (
-        <tr key={key}>
-          <td>{value.answer}</td>
-          <td>{value.hidden}</td>
-          <td>{String(value.reveal)}</td>
-        </tr>
-      );
-    });
-  };
-
-  return (
-    <React.Fragment>
-      <h2>GameWord: {renderRandomWord()}</h2>
-      <table>
-        <tbody>
-          <tr>
-            <th>-Answer-</th>
-            <th>-Hidden-</th>
-            <th>-Reveal-</th>
-          </tr>
-          {renderObject()}
-          {updateObject()}
-        </tbody>
-      </table>
-    </React.Fragment>
-  );
+	return (
+		<React.Fragment>
+			<h2>GameWord: {renderRandomWord()}</h2>
+			<table>
+				<tbody>
+					<tr>
+						<th>-Answer-</th>
+						<th>-Hidden-</th>
+						<th>-Reveal-</th>
+					</tr>
+					<RenderObject object={arrayOfObjects} />
+				</tbody>
+			</table>
+		</React.Fragment>
+	);
 }
