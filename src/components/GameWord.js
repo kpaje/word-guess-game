@@ -7,19 +7,18 @@ let arrayofObjects = setArrayofObjects(generatedWord);
 
 const renderRandomWord = () => {
   return Object.entries(arrayofObjects).map(([key, value]) => {
-    return <div key={key}>{value.answer}</div>;
+    return <span key={key}> {value.answer}</span>;
   });
 };
 
 const renderObject = () => {
   return Object.entries(arrayofObjects).map(([key, value]) => {
     return (
-      <div key={key}>
-        <p>answer: {value.answer}</p>
-        <p>hidden: {value.hidden}</p>
-        <p>reveal: {String(value.reveal)}</p>
-        ---------
-      </div>
+      <tr key={key}>
+        <td>{value.answer}</td>
+        <td>{value.hidden}</td>
+        <td>{String(value.reveal)}</td>
+      </tr>
     );
   });
 };
@@ -29,9 +28,16 @@ export default class GameWord extends Component {
     return (
       <div>
         <div>
-          <div>{renderRandomWord()}</div>
+          <h2>GameWord: {renderRandomWord()}</h2>
           <h2>wordGenerator</h2>
-          {renderObject()}
+          <table>
+            <tr>
+              <th>-Answer-</th>
+              <th>-Hidden-</th>
+              <th>-Reveal-</th>
+            </tr>
+            {renderObject()}
+          </table>
         </div>
       </div>
     );
