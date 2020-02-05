@@ -17,14 +17,6 @@ export default function Game() {
     <React.Fragment>
       <h2>Guesses: {guesses}</h2>
       <h2>GameStatus: {gameStatus}</h2>
-      <button
-        onClick={() => {
-          restartGame();
-          resetGameHistory();
-        }}
-      >
-        RESTART GAME
-      </button>
     </React.Fragment>
   );
 }

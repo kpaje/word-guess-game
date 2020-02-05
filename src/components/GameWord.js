@@ -14,6 +14,15 @@ export default function GameWord() {
     });
   };
 
+  const updateObject = () => {
+    console.log(arrayOfObjects);
+    console.log(arrayOfObjects[0].hidden);
+    let updated = arrayOfObjects[0].hidden;
+    updated = "F";
+    console.log(updated);
+    console.log(arrayOfObjects);
+  };
+
   const renderObject = () => {
     return Object.entries(arrayOfObjects).map(([key, value]) => {
       return (
@@ -37,6 +46,7 @@ export default function GameWord() {
             <th>-Reveal-</th>
           </tr>
           {renderObject()}
+          {updateObject()}
         </tbody>
       </table>
     </React.Fragment>

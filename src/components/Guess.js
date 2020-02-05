@@ -37,7 +37,7 @@ export default function Guess() {
   const useKeyPress = () => {
     const keyDownHandler = event => {
       if (event.repeat) {
-        return;
+        return; //prevent entry spam from holding down key
       }
       if (guessArray.length < 10) {
         allowKeyEntries(event.key);
