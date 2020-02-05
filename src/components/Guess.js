@@ -35,6 +35,7 @@ export default function Guess() {
     <React.Fragment>
       {useKeyPress()}
       <h2>Guesses: {guesses}</h2>
+      {keyArray.length > 9 ? <h2>GAME OVER</h2> : null}
       <h2>KeyPressed: {keyValue}</h2>
       <h2>KeyArray: {keyArray}</h2>
     </React.Fragment>
