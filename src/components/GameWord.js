@@ -10,7 +10,7 @@ export default function GameWord() {
 	const [arrayOfObjects, setarrayOfObjects] = useState(
 		createArrayOfObjects(generatedWord)
 	);
-	const guess = useContext(GuessValueContext);
+	const GuessContext = useContext(GuessValueContext);
 
 	const renderRandomWord = () => {
 		return Object.entries(arrayOfObjects).map(([key, value]) => {
@@ -19,6 +19,15 @@ export default function GameWord() {
 	};
 
 	const useKeyPress = () => {
+		const verifyIfAllRevealed = () => {
+			const isAllRevealValuesTrue = Object.keys(arrayOfObjects).every(
+				key => arrayOfObjects[key].reveal === true
+			);
+			if (isAllRevealValuesTrue) {
+				GuessContext.updateGameStatusContext();
+			}
+		};
+
 		const verfiyHiddenValue = inputGuess => {
 			verifyIfAllRevealed();
 			for (const key in arrayOfObjects) {
@@ -29,17 +38,11 @@ export default function GameWord() {
 			}
 		};
 
-		const verifyIfAllRevealed = () => {
-			const isAllTrue = Object.keys(arrayOfObjects).every(
-				key => arrayOfObjects[key].reveal === true
-			);
-			if (isAllTrue) {
-				guess.contextUpdateGameStatus();
-			}
-		};
-
 		useEffect(() => {
-			window.addEventListener("keyup", verfiyHiddenValue(guess.guessValue));
+			window.addEventListener(
+				"keyup",
+				verfiyHiddenValue(GuessContext.guessValue)
+			);
 		});
 	};
 
