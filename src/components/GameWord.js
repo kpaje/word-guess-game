@@ -6,67 +6,75 @@ import { randomWord } from "../scripts/wordGenerator";
 import GuessValueContext from "./GuessValueContext";
 
 export default function GameWord() {
-  const [generatedWord, setgeneratedWord] = useState(randomWord());
-  const [arrayOfObjects, setarrayOfObjects] = useState(
-    createArrayOfObjects(generatedWord)
-  );
-  const GuessContext = useContext(GuessValueContext);
+	const [generatedWord, setgeneratedWord] = useState(randomWord());
+	const [arrayOfObjects, setarrayOfObjects] = useState(
+		createArrayOfObjects(generatedWord)
+	);
+	const GuessContext = useContext(GuessValueContext);
 
-  const renderRandomWord = () => {
-    return Object.entries(arrayOfObjects).map(([key, value]) => {
-      return <span key={key}> {value.answer}</span>;
-    });
-  };
+	const renderRandomWord = () => {
+		return Object.entries(arrayOfObjects).map(([key, value]) => {
+			return <span key={key}> {value.answer}</span>;
+		});
+	};
 
-  const setNewWord = () => {
-    setgeneratedWord(randomWord());
-    setarrayOfObjects(createArrayOfObjects(generatedWord));
-  };
-  console.log(generatedWord);
+	const setNewWord = () => {
+		setgeneratedWord(randomWord());
+		setarrayOfObjects(createArrayOfObjects(generatedWord));
+	};
+	console.log(generatedWord);
 
-  const useKeyPress = () => {
-    const verifyIfAllRevealed = () => {
-      const isAllRevealValuesTrue = Object.keys(arrayOfObjects).every(
-        key => arrayOfObjects[key].reveal === true
-      );
-      if (isAllRevealValuesTrue) {
-        GuessContext.updateGameStatusContext();
-      }
-    };
+	const useKeyPress = () => {
+		const verifyIfAllRevealed = () => {
+			const isAllRevealValuesTrue = Object.keys(arrayOfObjects).every(
+				key => arrayOfObjects[key].reveal === true
+			);
+			if (isAllRevealValuesTrue) {
+				GuessContext.updateGameStatusContext();
+			}
+		};
 
-    const verfiyHiddenValue = inputGuess => {
-      verifyIfAllRevealed();
-      for (const key in arrayOfObjects) {
-        if (arrayOfObjects[key].answer === inputGuess) {
-          arrayOfObjects[key].hidden = inputGuess;
-          arrayOfObjects[key].reveal = true;
-        }
-      }
-    };
+		const verfiyHiddenValue = inputGuess => {
+			verifyIfAllRevealed();
+			for (const key in arrayOfObjects) {
+				if (arrayOfObjects[key].answer === inputGuess) {
+					arrayOfObjects[key].hidden = inputGuess;
+					arrayOfObjects[key].reveal = true;
+				}
+			}
+		};
 
-    useEffect(() => {
-      window.addEventListener(
-        "keyup",
-        verfiyHiddenValue(GuessContext.guessValue)
-      );
-    });
-  };
+		useEffect(() => {
+			window.addEventListener(
+				"keyup",
+				verfiyHiddenValue(GuessContext.guessValue)
+			);
+		});
+	};
 
-  return (
-    <React.Fragment>
-      {useKeyPress()}
-      <h2>GameWord: {renderRandomWord()}</h2>
-      <table>
-        <tbody>
-          <tr>
-            <th>-Answer-</th>
-            <th>-Hidden-</th>
-            <th>-Reveal-</th>
-          </tr>
-          <RenderObject object={arrayOfObjects} />
-        </tbody>
-      </table>
-      <button onClick={() => setNewWord()}>NEWWORD</button>
-    </React.Fragment>
-  );
+	return (
+		<React.Fragment>
+			{useKeyPress()}
+			<h2>GameWord: {renderRandomWord()}</h2>
+			<table>
+				<tbody>
+					<tr>
+						<th>-Answer-</th>
+						<th>-Hidden-</th>
+						<th>-Reveal-</th>
+					</tr>
+					<RenderObject object={arrayOfObjects} />
+				</tbody>
+			</table>
+			<button
+				onClick={() => {
+					setNewWord();
+					GuessContext.restartGame();
+					GuessContext.resetKeyEntries();
+				}}
+			>
+				RESTART GAME
+			</button>
+		</React.Fragment>
+	);
 }

@@ -66,7 +66,14 @@ export default function Guess() {
 
 	return (
 		<React.Fragment>
-			<ContextProvider value={{ guessValue, updateGameStatusContext }}>
+			<ContextProvider
+				value={{
+					guessValue,
+					updateGameStatusContext,
+					restartGame,
+					resetKeyEntries
+				}}
+			>
 				<GameWord />
 			</ContextProvider>
 
@@ -75,14 +82,6 @@ export default function Guess() {
 			<h2>GuessArray: {guessArray}</h2>
 			<GuessValue guessValue={guessValue} />
 			<GameStatus gameStatus={gameStatus} />
-			<button
-				onClick={() => {
-					restartGame();
-					resetKeyEntries();
-				}}
-			>
-				RESTART GAME
-			</button>
 		</React.Fragment>
 	);
 }
