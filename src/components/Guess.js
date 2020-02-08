@@ -18,8 +18,17 @@ export default function Guess() {
 		setGameStatus("GAME OVER");
 	};
 
+	function allowAlphabetEntriesOnly(keyEntry) {
+		var letters = /^[A-Za-z]+$/;
+		String(keyEntry);
+		if (!keyEntry.match(letters)) {
+			return;
+		}
+	}
+
 	const allowKeyEntries = key => {
 		key = key.toUpperCase();
+		allowAlphabetEntriesOnly(key);
 		setGuessValue(key);
 		setGuessArray(key);
 		guessArray.push(key);
@@ -38,6 +47,15 @@ export default function Guess() {
 
 	const useKeyPress = () => {
 		const keyDownHandler = event => {
+			var letters = /^[A-Za-z]+$/;
+			if (
+				//allow only letters
+				!event.key.match(letters) ||
+				event.keyCode < 65 ||
+				event.keyCode > 90
+			) {
+				return;
+			}
 			if (event.repeat) {
 				return; //prevent entry spam from holding down key
 			}
@@ -51,7 +69,6 @@ export default function Guess() {
 
 		const keyUpHandler = () => {
 			setGuessCount(guessArray.length);
-			// console.log(guessArray);
 		};
 
 		useEffect(() => {
