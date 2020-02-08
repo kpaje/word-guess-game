@@ -4,105 +4,101 @@ import GuessValue from "./GuessValue";
 import GameWord from "./GameWord";
 
 export default function Guess() {
-	const [guessValue, setGuessValue] = useState("");
-	const [guessArray, setGuessArray] = useState([]);
-	const [guessCount, setGuessCount] = useState(0);
-	const [gameStatus, setGameStatus] = useState("IN PLAY");
+  const [guessValue, setGuessValue] = useState("");
+  const [guessArray, setGuessArray] = useState([]);
+  const [guessCount, setGuessCount] = useState(0);
+  const [gameStatus, setGameStatus] = useState("IN PLAY");
 
-	const restartGame = () => {
-		setGameStatus("IN PLAY");
-		setGuessCount(0);
-	};
+  const restartGame = () => {
+    setGameStatus("IN PLAY");
+    setGuessCount(0);
+  };
 
-	const gameOver = () => {
-		setGameStatus("GAME OVER");
-	};
+  const gameOver = () => {
+    setGameStatus("GAME OVER");
+  };
 
-	function allowAlphabetEntriesOnly(keyEntry) {
-		var letters = /^[A-Za-z]+$/;
-		String(keyEntry);
-		if (!keyEntry.match(letters)) {
-			return;
-		}
-	}
+  function allowAlphabetEntriesOnly(keyEntry) {
+    var letters = /^[A-Za-z]+$/;
+    String(keyEntry);
+    if (!keyEntry.match(letters)) {
+      return;
+    }
+  }
 
-	const allowKeyEntries = key => {
-		key = key.toUpperCase();
-		allowAlphabetEntriesOnly(key);
-		setGuessValue(key);
-		setGuessArray(key);
-		guessArray.push(key);
-		setGuessArray(guessArray);
-	};
+  const allowKeyEntries = key => {
+    key = key.toUpperCase();
+    allowAlphabetEntriesOnly(key);
+    setGuessValue(key);
+    setGuessArray(key);
+    guessArray.push(key);
+    setGuessArray(guessArray);
+  };
 
-	const preventKeyEntries = () => {
-		guessArray.splice(10, 1);
-	};
+  const preventKeyEntries = () => {
+    guessArray.splice(10, 1);
+  };
 
-	const resetKeyEntries = () => {
-		setGuessValue("");
-		setGuessArray((guessArray.length = 0));
-		setGuessArray([]);
-	};
+  const resetKeyEntries = () => {
+    setGuessValue("");
+    setGuessArray((guessArray.length = 0));
+    setGuessArray([]);
+  };
 
-	const useKeyPress = () => {
-		const keyDownHandler = event => {
-			var letters = /^[A-Za-z]+$/;
-			if (
-				//allow only letters
-				!event.key.match(letters) ||
-				event.keyCode < 65 ||
-				event.keyCode > 90
-			) {
-				return;
-			}
-			if (event.repeat) {
-				return; //prevent entry spam from holding down key
-			}
-			if (guessArray.length < 10) {
-				allowKeyEntries(event.key);
-			} else {
-				gameOver();
-				preventKeyEntries();
-			}
-		};
+  const useKeyPress = () => {
+    const keyDownHandler = event => {
+      var letters = /^[A-Za-z]+$/;
+      if (
+        //allow only letters
+        !event.key.match(letters) ||
+        event.keyCode < 65 ||
+        event.keyCode > 90
+      ) {
+        return;
+      }
+      if (event.repeat) {
+        return; //prevent entry spam from holding down key
+      }
+      if (guessArray.length < 10) {
+        allowKeyEntries(event.key);
+      } else {
+        gameOver();
+        preventKeyEntries();
+      }
+    };
 
-		const keyUpHandler = () => {
-			setGuessCount(guessArray.length);
-		};
+    const keyUpHandler = () => {
+      setGuessCount(guessArray.length);
+    };
 
-		useEffect(() => {
-			window.addEventListener("keydown", keyDownHandler);
-			window.addEventListener("keyup", keyUpHandler);
-		}, []); // Empty array ensures that effect is only run on mount and unmount
-	};
+    useEffect(() => {
+      window.addEventListener("keydown", keyDownHandler);
+      window.addEventListener("keyup", keyUpHandler);
+    }, []); // Empty array ensures that effect is only run on mount and unmount
+  };
 
-	const updateGameStatusContext = () => {
-		setGameStatus("YOU WIN");
-	};
+  return (
+    <React.Fragment>
+      <ContextProvider
+        value={{
+          guessValue,
+          restartGame,
+          resetKeyEntries,
+          setGameStatus
+        }}
+      >
+        <GameWord />
+      </ContextProvider>
 
-	return (
-		<React.Fragment>
-			<ContextProvider
-				value={{
-					guessValue,
-					updateGameStatusContext,
-					restartGame,
-					resetKeyEntries
-				}}
-			>
-				<GameWord />
-			</ContextProvider>
-
-			{useKeyPress()}
-			<h2>GuessCount: {guessCount}</h2>
-			<h2>GuessArray: {guessArray}</h2>
-			<GuessValue guessValue={guessValue} />
-			<GameStatus gameStatus={gameStatus} />
-		</React.Fragment>
-	);
+      {useKeyPress()}
+      <h2>GuessCount: {guessCount}</h2>
+      <h2>GuessArray: {guessArray}</h2>
+      <GuessValue guessValue={guessValue} />
+      <GameStatus gameStatus={gameStatus} />
+    </React.Fragment>
+  );
 }
 
 const GameStatus = props => {
-	return <h2>gameStatus: {props.gameStatus}</h2>;
+  return <h2>gameStatus: {props.gameStatus}</h2>;
 };
