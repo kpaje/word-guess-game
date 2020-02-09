@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import { ContextProvider } from "./GuessValueContext";
 import GuessValue from "./GuessValue";
 import GameWord from "./GameWord";
+import GameStatus from "./GameStatus";
 import {
   allowKeyEntries,
   allowAlphabetEntriesOnly,
@@ -81,7 +82,3 @@ export default function Guess() {
     </React.Fragment>
   );
 }
-
-const GameStatus = props => {
-  return <h2>gameStatus: {props.gameStatus}</h2>;
-};

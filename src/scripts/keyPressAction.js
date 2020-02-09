@@ -7,7 +7,9 @@ export const allowKeyEntries = (key, setGuessValue, setGuessArray) => {
 export function allowAlphabetEntriesOnly(event) {
   const letters = /^[A-Za-z]+$/;
   const notLetter = true;
-  if (!event.key.match(letters) || event.keyCode < 65 || event.keyCode > 90) {
+  const [key, keyCode] = event;
+
+  if (!key.match(letters) || keyCode < 65 || keyCode > 90) {
     return notLetter;
   }
 }
@@ -20,5 +22,6 @@ export const preventKeyEntrySpam = event => {
 };
 
 export const preventKeyEntries = array => {
-  array.splice(10, 1);
+  const stopAtMaxGuessCount = array.splice(10, 1);
+  return stopAtMaxGuessCount;
 };
