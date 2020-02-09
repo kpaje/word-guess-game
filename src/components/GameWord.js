@@ -13,7 +13,8 @@ export default function GameWord() {
   const GuessContext = useContext(GuessValueContext);
 
   const renderRandomWord = () => {
-    return Object.entries(arrayOfObjects).map(([key, value]) => {
+    const setWordToObject = Object.entries(arrayOfObjects);
+    return setWordToObject.map(([key, value]) => {
       return <span key={key}> {value.answer}</span>;
     });
   };
@@ -24,7 +25,8 @@ export default function GameWord() {
   };
 
   const useKeyPress = () => {
-    const isAllValuesRevealed = Object.keys(arrayOfObjects).every(
+    const objectRevealState = Object.keys(arrayOfObjects);
+    const isAllValuesRevealed = objectRevealState.every(
       key => arrayOfObjects[key].reveal === true
     );
 

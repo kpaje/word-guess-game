@@ -37,7 +37,8 @@ export default function Guess() {
       if (allowAlphabetEntriesOnly(event) || preventKeyEntrySpam(event)) {
         return;
       }
-      if (guessArray.length < 10) {
+      const guessesLeft = guessArray.length;
+      if (guessesLeft < 10) {
         allowKeyEntries(event.key, setGuessValue, setGuessArray);
         pushGuessEntryToArray(event.key);
       } else {
