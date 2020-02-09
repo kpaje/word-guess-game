@@ -29,7 +29,8 @@ export default function GameWord() {
         key => arrayOfObjects[key].reveal === true
       );
       if (isAllRevealValuesTrue) {
-        GuessContext.setGameStatus("YOU WIN");
+        GuessContext.setGameStatus(false); //WIN
+        GuessContext.setGameMessage("YOU WIN"); //WIN
       }
     };
 
@@ -73,7 +74,7 @@ export default function GameWord() {
       <button
         onClick={() => {
           setNewWord();
-          GuessContext.setGameStatus("IN PLAY");
+          GuessContext.setGameStatus(true);
           GuessContext.resetKeyEntries();
           GuessContext.setGuessCount(0);
         }}

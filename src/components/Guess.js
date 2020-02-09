@@ -2,26 +2,18 @@ import React, { useState, useEffect } from "react";
 import { ContextProvider } from "./GuessValueContext";
 import GuessValue from "./GuessValue";
 import GameWord from "./GameWord";
+import {
+  allowKeyEntries,
+  allowAlphabetEntriesOnly,
+  preventKeyEntrySpam
+} from "../scripts/keyPressAction";
 
 export default function Guess() {
   const [guessValue, setGuessValue] = useState("");
   const [guessArray, setGuessArray] = useState([]);
   const [guessCount, setGuessCount] = useState(0);
-  const [gameStatus, setGameStatus] = useState("IN PLAY");
-
-  function allowAlphabetEntriesOnly(event) {
-    const letters = /^[A-Za-z]+$/;
-    const notLetter = true;
-    if (!event.key.match(letters) || event.keyCode < 65 || event.keyCode > 90) {
-      return notLetter;
-    }
-  }
-
-  const allowKeyEntries = key => {
-    key = key.toUpperCase();
-    setGuessValue(key);
-    setGuessArray(key);
-  };
+  const [gameStatus, setGameStatus] = useState(true);
+  const [gameMessage, setGameMessage] = useState("IN PLAY");
 
   const pushKeyEntryToArray = key => {
     key = key.toUpperCase();
@@ -31,13 +23,6 @@ export default function Guess() {
 
   const preventKeyEntries = () => {
     guessArray.splice(10, 1);
-  };
-
-  const preventKeyEntrySpam = event => {
-    const stopInputSpam = true;
-    if (event.repeat) {
-      return stopInputSpam; //prevent input spam from holding down key
-    }
   };
 
   const resetGuessArray = () => {
@@ -56,10 +41,11 @@ export default function Guess() {
         return;
       }
       if (guessArray.length < 10) {
-        allowKeyEntries(event.key);
+        allowKeyEntries(event.key, setGuessValue, setGuessArray);
         pushKeyEntryToArray(event.key);
       } else {
-        setGameStatus("GAME OVER");
+        setGameStatus(false);
+        setGameMessage("GAME OVER");
         preventKeyEntries();
       }
     };
@@ -81,7 +67,8 @@ export default function Guess() {
           guessValue,
           resetKeyEntries,
           setGameStatus,
-          setGuessCount
+          setGuessCount,
+          setGameMessage
         }}
       >
         <GameWord />
@@ -91,7 +78,8 @@ export default function Guess() {
       <h2>GuessCount: {guessCount}</h2>
       <h2>GuessArray: {guessArray}</h2>
       <GuessValue guessValue={guessValue} />
-      <GameStatus gameStatus={gameStatus} />
+      <GameStatus gameStatus={String(gameStatus)} />
+      <h2>GameMessage: {gameMessage}</h2>
     </React.Fragment>
   );
 }
