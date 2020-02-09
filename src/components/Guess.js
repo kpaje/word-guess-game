@@ -5,7 +5,8 @@ import GameWord from "./GameWord";
 import {
   allowKeyEntries,
   allowAlphabetEntriesOnly,
-  preventKeyEntrySpam
+  preventKeyEntrySpam,
+  preventKeyEntries
 } from "../scripts/keyPressAction";
 
 export default function Guess() {
@@ -15,14 +16,10 @@ export default function Guess() {
   const [gameStatus, setGameStatus] = useState(true);
   const [gameMessage, setGameMessage] = useState("IN PLAY");
 
-  const pushKeyEntryToArray = key => {
+  const pushGuessEntryToArray = key => {
     key = key.toUpperCase();
     guessArray.push(key);
     setGuessArray(guessArray);
-  };
-
-  const preventKeyEntries = () => {
-    guessArray.splice(10, 1);
   };
 
   const resetGuessArray = () => {
@@ -30,7 +27,7 @@ export default function Guess() {
     setGuessArray([]);
   };
 
-  const resetKeyEntries = () => {
+  const resetGuessEntries = () => {
     setGuessValue("");
     resetGuessArray();
   };
@@ -42,11 +39,11 @@ export default function Guess() {
       }
       if (guessArray.length < 10) {
         allowKeyEntries(event.key, setGuessValue, setGuessArray);
-        pushKeyEntryToArray(event.key);
+        pushGuessEntryToArray(event.key);
       } else {
         setGameStatus(false);
         setGameMessage("GAME OVER");
-        preventKeyEntries();
+        preventKeyEntries(guessArray);
       }
     };
 
@@ -65,7 +62,7 @@ export default function Guess() {
       <ContextProvider
         value={{
           guessValue,
-          resetKeyEntries,
+          resetGuessEntries,
           setGameStatus,
           setGuessCount,
           setGameMessage

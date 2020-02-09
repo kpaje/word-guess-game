@@ -75,7 +75,8 @@ export default function GameWord() {
         onClick={() => {
           setNewWord();
           GuessContext.setGameStatus(true);
-          GuessContext.resetKeyEntries();
+          GuessContext.setGameMessage("IN PLAY");
+          GuessContext.resetGuessEntries();
           GuessContext.setGuessCount(0);
         }}
       >

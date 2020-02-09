@@ -19,8 +19,13 @@ export const preventKeyEntrySpam = event => {
   }
 };
 
+export const preventKeyEntries = array => {
+  array.splice(10, 1);
+};
+
 export default {
   allowKeyEntries,
   allowAlphabetEntriesOnly,
-  preventKeyEntrySpam
+  preventKeyEntrySpam,
+  preventKeyEntries
 };
