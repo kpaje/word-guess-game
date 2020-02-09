@@ -24,29 +24,35 @@ export default function GameWord() {
   };
 
   const useKeyPress = () => {
+    const isAllValuesRevealed = Object.keys(arrayOfObjects).every(
+      key => arrayOfObjects[key].reveal === true
+    );
+
     const verifyIfAllValuesRevealed = () => {
-      const isAllRevealValuesTrue = Object.keys(arrayOfObjects).every(
-        key => arrayOfObjects[key].reveal === true
-      );
-      if (isAllRevealValuesTrue) {
-        GuessContext.setGameStatus(false); //WIN
-        GuessContext.setGameMessage("YOU WIN"); //WIN
+      if (isAllValuesRevealed) {
+        GuessContext.setGameStatus(false);
+        GuessContext.setGameMessage("YOU WIN");
+      }
+    };
+
+    const revealHiddenLetter = (inputGuess, key) => {
+      arrayOfObjects[key].hidden = inputGuess;
+      arrayOfObjects[key].reveal = true;
+    };
+
+    const setValueReveal = inputGuess => {
+      for (const key in arrayOfObjects) {
+        const isGuessEqualToAnswer = arrayOfObjects[key].answer === inputGuess;
+
+        if (isGuessEqualToAnswer) {
+          revealHiddenLetter(inputGuess, key);
+        }
       }
     };
 
     const verfiyAgainstHiddenValues = inputGuess => {
       verifyIfAllValuesRevealed();
-      for (const key in arrayOfObjects) {
-        const isGuessEqualToAnswer = arrayOfObjects[key].answer === inputGuess;
-        const revealHiddenLetter = () => {
-          arrayOfObjects[key].hidden = inputGuess;
-          arrayOfObjects[key].reveal = true;
-        };
-
-        if (isGuessEqualToAnswer) {
-          revealHiddenLetter();
-        }
-      }
+      setValueReveal(inputGuess);
     };
 
     useEffect(() => {
