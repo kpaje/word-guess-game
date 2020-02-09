@@ -22,10 +22,9 @@ export default function GameWord() {
     setgeneratedWord(randomWord());
     setarrayOfObjects(createArrayOfObjects(generatedWord));
   };
-  console.log(generatedWord);
 
   const useKeyPress = () => {
-    const verifyIfAllRevealed = () => {
+    const verifyIfAllValuesRevealed = () => {
       const isAllRevealValuesTrue = Object.keys(arrayOfObjects).every(
         key => arrayOfObjects[key].reveal === true
       );
@@ -34,13 +33,17 @@ export default function GameWord() {
       }
     };
 
-    const verfiyHiddenValue = inputGuess => {
-      verifyIfAllRevealed();
+    const verfiyAgainstHiddenValues = inputGuess => {
+      verifyIfAllValuesRevealed();
       for (const key in arrayOfObjects) {
         const isGuessEqualToAnswer = arrayOfObjects[key].answer === inputGuess;
-        if (isGuessEqualToAnswer) {
+        const revealHiddenLetter = () => {
           arrayOfObjects[key].hidden = inputGuess;
           arrayOfObjects[key].reveal = true;
+        };
+
+        if (isGuessEqualToAnswer) {
+          revealHiddenLetter();
         }
       }
     };
@@ -48,7 +51,7 @@ export default function GameWord() {
     useEffect(() => {
       window.addEventListener(
         "keyup",
-        verfiyHiddenValue(GuessContext.guessValue)
+        verfiyAgainstHiddenValues(GuessContext.guessValue)
       );
     });
   };
@@ -70,8 +73,9 @@ export default function GameWord() {
       <button
         onClick={() => {
           setNewWord();
-          GuessContext.restartGame();
+          GuessContext.setGameStatus("IN PLAY");
           GuessContext.resetKeyEntries();
+          GuessContext.setGuessCount(0);
         }}
       >
         RESTART GAME

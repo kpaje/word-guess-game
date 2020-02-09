@@ -9,28 +9,22 @@ export default function Guess() {
   const [guessCount, setGuessCount] = useState(0);
   const [gameStatus, setGameStatus] = useState("IN PLAY");
 
-  const restartGame = () => {
-    setGameStatus("IN PLAY");
-    setGuessCount(0);
-  };
-
-  const gameOver = () => {
-    setGameStatus("GAME OVER");
-  };
-
-  function allowAlphabetEntriesOnly(keyEntry) {
-    var letters = /^[A-Za-z]+$/;
-    String(keyEntry);
-    if (!keyEntry.match(letters)) {
-      return;
+  function allowAlphabetEntriesOnly(event) {
+    const letters = /^[A-Za-z]+$/;
+    const notLetter = true;
+    if (!event.key.match(letters) || event.keyCode < 65 || event.keyCode > 90) {
+      return notLetter;
     }
   }
 
   const allowKeyEntries = key => {
     key = key.toUpperCase();
-    allowAlphabetEntriesOnly(key);
     setGuessValue(key);
     setGuessArray(key);
+  };
+
+  const pushKeyEntryToArray = key => {
+    key = key.toUpperCase();
     guessArray.push(key);
     setGuessArray(guessArray);
   };
@@ -39,30 +33,33 @@ export default function Guess() {
     guessArray.splice(10, 1);
   };
 
-  const resetKeyEntries = () => {
-    setGuessValue("");
+  const preventKeyEntrySpam = event => {
+    const stopInputSpam = true;
+    if (event.repeat) {
+      return stopInputSpam; //prevent input spam from holding down key
+    }
+  };
+
+  const resetGuessArray = () => {
     setGuessArray((guessArray.length = 0));
     setGuessArray([]);
   };
 
+  const resetKeyEntries = () => {
+    setGuessValue("");
+    resetGuessArray();
+  };
+
   const useKeyPress = () => {
     const keyDownHandler = event => {
-      var letters = /^[A-Za-z]+$/;
-      if (
-        //allow only letters
-        !event.key.match(letters) ||
-        event.keyCode < 65 ||
-        event.keyCode > 90
-      ) {
+      if (allowAlphabetEntriesOnly(event) || preventKeyEntrySpam(event)) {
         return;
-      }
-      if (event.repeat) {
-        return; //prevent entry spam from holding down key
       }
       if (guessArray.length < 10) {
         allowKeyEntries(event.key);
+        pushKeyEntryToArray(event.key);
       } else {
-        gameOver();
+        setGameStatus("GAME OVER");
         preventKeyEntries();
       }
     };
@@ -82,9 +79,9 @@ export default function Guess() {
       <ContextProvider
         value={{
           guessValue,
-          restartGame,
           resetKeyEntries,
-          setGameStatus
+          setGameStatus,
+          setGuessCount
         }}
       >
         <GameWord />
