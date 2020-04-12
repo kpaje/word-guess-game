@@ -14,10 +14,11 @@ export function allowAlphabetEntriesOnly(event) {
   }
 }
 
+//prevent input spam from user holding down key
 export const preventKeyEntrySpam = event => {
   const stopInputSpam = true;
   if (event.repeat) {
-    return stopInputSpam; //prevent input spam from holding down key
+    return stopInputSpam;
   }
 };
 

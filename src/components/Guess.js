@@ -38,14 +38,19 @@ export default function Guess() {
       if (allowAlphabetEntriesOnly(event) || preventKeyEntrySpam(event)) {
         return;
       }
-      const guessesLeft = guessArray.length;
-      if (guessesLeft < 10) {
-        allowKeyEntries(event.key, setGuessValue, setGuessArray);
-        pushGuessEntryToArray(event.key);
-      } else {
+
+      const setGameOver = () => {
         setGameStatus(false);
         setGameMessage("GAME OVER");
         preventKeyEntries(guessArray);
+      };
+
+      // const guessesLeft = guessArray.length;
+      if (guessCount < 10) {
+        allowKeyEntries(event.key, setGuessValue, setGuessArray);
+        pushGuessEntryToArray(event.key);
+      } else {
+        setGameOver();
       }
     };
 
@@ -61,6 +66,7 @@ export default function Guess() {
 
   return (
     <React.Fragment>
+      {/* imports functions from other/external components */}
       <ContextProvider
         value={{
           guessValue,

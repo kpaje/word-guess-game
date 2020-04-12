@@ -10,6 +10,7 @@ export default function GameWord() {
   const [arrayOfObjects, setarrayOfObjects] = useState(
     createArrayOfObjects(generatedWord)
   );
+  // useContext converts functions for global use by other components
   const GuessContext = useContext(GuessValueContext);
 
   const renderRandomWord = () => {
@@ -42,7 +43,7 @@ export default function GameWord() {
       arrayOfObjects[key].reveal = true;
     };
 
-    const setValueReveal = inputGuess => {
+    const setValueToReveal = inputGuess => {
       for (const key in arrayOfObjects) {
         const isGuessEqualToAnswer = arrayOfObjects[key].answer === inputGuess;
 
@@ -54,7 +55,7 @@ export default function GameWord() {
 
     const verfiyAgainstHiddenValues = inputGuess => {
       verifyIfAllValuesRevealed();
-      setValueReveal(inputGuess);
+      setValueToReveal(inputGuess);
     };
 
     useEffect(() => {
